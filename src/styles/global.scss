@@ -1,0 +1,137 @@
+// 全局按钮样式
+.globalBtn {
+    background: rgba(30, 128, 255, 0.05);
+    border: 1px solid rgba(30, 128, 255, 0.3);
+    border-radius: 4px;
+    color: #1890ff;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+
+// 回到顶部全局样式
+#components-back-top-demo-custom .ant-back-top {
+    bottom: 120px;
+    right: 55px;
+}
+
+#components-back-top-demo-custom .ant-back-top-inner {
+    height: 44px;
+    width: 44px;
+    line-height: 44px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: #1890ff;
+    text-align: center;
+    font-size: 25px;
+    transition: all 0.3s linear;
+
+    &:hover {
+        background-color: #1890ff;
+        border: 1px solid #1890ff;
+        color: white;
+        transition: all 0.3s linear;
+    }
+}
+
+
+// 无内容全局样式
+.empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+// 加载中样式
+.example {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 30px 50px;
+    margin: 20px 0;
+}
+
+
+// header样式
+.ant-layout-header {
+    min-width: 800px;
+    background: white !important;
+    border-bottom: 1px solid #d4d9e1;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    // box-shadow: 0 2px 4px 0 rgb(0 0 0 / 8%);
+    box-shadow: 0 0 1px rgb(0 0 0 / 25%);
+
+    .logo {
+        font-size: 30px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .right-menu-box {
+        display: flex;
+
+        .menu-box {
+            display: flex;
+
+            .menu {
+                display: flex;
+                margin: 0px 5px;
+
+                a {
+                    padding: 0px 15px;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #2c3e50;
+
+                    &:hover {
+                        border-bottom: 3px solid #1890ff;
+                        color: #1890ff;
+                    }
+
+                    &.selected {
+                        color: #1890ff;
+                        border-bottom: 3px solid #1890ff;
+                        background-color: #e6f7ff;
+                    }
+                }
+            }
+
+            .avatar-back {
+                cursor: pointer;
+                margin-right: 0px;
+                height: 63px;
+                line-height: 63px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+
+                .name {
+                    background: #1890ff;
+                    font-size: 16px;
+                    width: 44px;
+                    height: 44px;
+                    line-height: 44px;
+                    text-align: center;
+                    color: white;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+}
+
+
+// word预览文件样式
+.docx-wrapper {
+    background: white !important;
+    padding: 0 !important;
+
+    section {
+        box-shadow: none !important;
+        padding: 22pt 22pt !important;
+    }
+}
