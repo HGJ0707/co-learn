@@ -20,7 +20,7 @@
           @handleClick="clickPlay"
         />
         <!-- 视频控制条区域 -->
-        <div class="control">
+        <div class="control" v-show="controlShow">
           <div @click="handlePlay">
             <a-icon type="play-circle" v-if="!playState" />
             <a-icon type="pause-circle" v-else />
@@ -91,6 +91,7 @@ export default {
       audioProAppear: false,
       percent: 0, //当前播放和总时间之间的差值
       totalT: 0, //总时间
+      controlShow:false,
     };
   },
   methods: {
@@ -229,7 +230,7 @@ export default {
       }
     });
     // 音量
-    const audioPro = document.querySelector(".audioProgress");
+    let audioPro = document.querySelector(".audioProgress");
     audioPro.addEventListener("mouseover", () => {
       this.audioProAppear = true;
     });
@@ -331,11 +332,12 @@ video::-webkit-media-controls {
   position: absolute;
   width: 100%;
   height: 40px;
-  border-radius: 5px;
+  // border-radius: 5px;
   left: 50%;
-  bottom: 10px;
+  bottom: 0px;
   transform: translateX(-50%);
   z-index: 999;
+  background-image: linear-gradient(rgb(255, 255, 255, 0), rgba(0, 0, 0, 0.3));
 }
 .player .control div {
   display: inline-block;
