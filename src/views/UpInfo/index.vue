@@ -202,7 +202,7 @@ export default {
         if (!res) {
           this.loading = false;
           this.$router.push({
-            name: "NewCourse",
+            name: "CourseList",
           });
           this.$message.success("上传成功");
         }

@@ -2,12 +2,14 @@
   <div class="relative" @contextmenu.prevent="">
     <div class="content">
       <div class="player" ref="player">
-        <video
-          preload="auto"
-          style="object-fit: contain; width: 100%"
-          :src="job_url"
-          ref="videoEle"
-        ></video>
+        <div>
+          <video
+            preload="auto"
+            style="object-fit: contain; width: 100%"
+            :src="job_url"
+            ref="videoEle"
+          ></video>
+        </div>
         <!-- 弹幕区域 -->
         <DanmuControl
           ref="barrageMain"
@@ -15,6 +17,7 @@
           :work_id="work_id"
           :playState="playState"
           :fullScreenState="fullScreenState"
+          @handleClick="clickPlay"
         />
         <!-- 视频控制条区域 -->
         <div class="control">
@@ -91,6 +94,44 @@ export default {
     };
   },
   methods: {
+    // 视频
+    // videoPlay() {
+    //   console.log("start play");
+    //   var video = document.querySelector("video");
+    //   var mediaSource = new MediaSource();
+    //   video.src = URL.createObjectURL(mediaSource);
+    //   mediaSource.addEventListener("sourceopen", this.sourceOpen);
+    // },
+    // sourceOpen(e) {
+    //   var video = document.querySelector("video");
+    //   URL.revokeObjectURL(video.src);
+    //   // 设置 媒体的编码类型
+    //   var mime = 'video/webm; codecs="vorbis,vp8"';
+    //   var mediaSource = e.target;
+    //   var sourceBuffer = mediaSource.addSourceBuffer(mime);
+    //   console.log(this.job_url, "joburl");
+    //   var videoUrl = "http://co-learn.cc" + this.job_url;
+    //   fetch(videoUrl)
+    //     .then(function (response) {
+    //       console.log(response, "responsexxx");
+    //       return response.arrayBuffer();
+    //     })
+    //     .then(function (arrayBuffer) {
+    //       sourceBuffer.addEventListener("updateend", function (e) {
+    //         if (!sourceBuffer.updating && mediaSource.readyState === "open") {
+    //           mediaSource.endOfStream();
+    //           // 在数据请求完成后，我们需要调用 endOfStream()。它会改变 MediaSource.readyState 为 ended 并且触发 sourceended 事件。
+    //           video
+    //             .play()
+    //             .then(function () {})
+    //             .catch(function (err) {
+    //               console.log(err);
+    //             });
+    //         }
+    //       });
+    //       sourceBuffer.appendBuffer(arrayBuffer);
+    //     });
+    // },
     // 视频播放方法
     handlePlay() {
       var videoEle = document.querySelector("video");
@@ -124,6 +165,9 @@ export default {
         videoEle.pause();
         this.playState = false;
       }
+    },
+    clickPlay() {
+      this.handlePlay();
     },
     // 改变进度条方法
     handleChangeProgress() {
@@ -177,7 +221,6 @@ export default {
   mounted() {
     // 空格进行暂停和播放
     let videoObj = this.$refs.videoEle;
-    console.log(videoObj);
     document.body.addEventListener("keydown", (e) => {
       if (e.code === "Space") {
         // 阻止按空格自动往下翻页
@@ -185,7 +228,6 @@ export default {
         this.handlePlay();
       }
     });
-
     // 音量
     const audioPro = document.querySelector(".audioProgress");
     audioPro.addEventListener("mouseover", () => {
@@ -205,6 +247,8 @@ export default {
       }
     });
     resizeObserver.observe(videoObj);
+    // console.log(this.job_url, "joburl11111");
+    // this.videoPlay();
   },
 };
 </script>

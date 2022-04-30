@@ -43,3 +43,14 @@ Mock.mock("/api/upload_merge", "post", {
         "url": "files/videos/258.mp4"
     }
 })
+
+
+
+// 获取上传签名
+Mock.mock("/api/get_file_secret", "post", {
+    code: 0,
+    msg: "",
+    data: {
+        "signature": "dasdddddddddddddddddddddddd.dsaaaaaaaaaaaaaaaaaaaaaaaaaaa.dasssssssssssssssssssssssssssssssssssssssss.asddddddddddddd",
+    }
+})

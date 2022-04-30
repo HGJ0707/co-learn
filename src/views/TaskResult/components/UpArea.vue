@@ -55,10 +55,7 @@
               {{ uploading ? "上传中..." : "开始上传" }}
             </a-button>
             <!-- 视频上传进度条 -->
-            <a-progress
-              :percent="progressData"
-              :style="{ marginTop: '10px' }"
-            />
+            <a-progress :percent="pro" :style="{ marginTop: '10px' }" />
           </div>
         </div>
         <!-- 文档上传 -->
@@ -93,16 +90,12 @@
 </template>
 
 <script>
+// 引入 SDK
+import TcVod from "vod-js-sdk-v6";
 import UpFileInfo from "./upcom/UpFileInfo";
 import { getGroupMembers } from "@/api/group";
 import { submitWork } from "@/api/task";
-import {
-  uploadFile,
-  uploadFileSnippet,
-  uploadCheckSnippet,
-  uploadMerge,
-} from "@/api/uploadFile";
-const SIZE = 10 * 1024 * 1024; // 视频切片大小
+import { getFileSignature, uploadFile } from "@/api/uploadFile";
 export default {
   components: {
     UpFileInfo,
@@ -117,10 +110,13 @@ export default {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("adminToken"),
       },
+      progressData: 0,
+      // 上传签名
+      signature: "",
       //文件上传相关
       fileList: [],
       uploading: false,
-      job_url: null,
+      job_url: "",
       data: [],
       container: {
         hash: "",
@@ -132,116 +128,50 @@ export default {
     };
   },
   computed: {
-    progressData() {
-      return ((this.upChunkCount / this.chunkCount) * 100).toFixed(0) * 1;
+    pro() {
+      console.log(1111111111111);
+      return this.progressData;
     },
   },
   methods: {
     // 视频上传方法
     async handleUpload() {
       this.uploading = true;
-      //1.读取文件
-      const { fileList } = this;
-      console.log(this.fileList, fileList[0].name, "list");
-      //2.产生切片
-      const fileChunkList = this.createFileChunk(fileList[0]);
-      // console.log(fileChunkList, "chunkList");
-      //3.生成文件hash（web-worker）
-      this.container.hash = await this.calculateHash(fileChunkList);
-      // console.log(this.container.hash, "hash");
-      //4.根据 hash 验证文件是否曾经已经被上传过,获取已上传分片列表
-      const uploadedList = await uploadCheckSnippet(
-        JSON.stringify(this.container.hash)
-      ).then((res) => {
-        // console.log("已上传的分片", res);
-        return res;
-      });
-      this.data = fileChunkList.map(({ file }, index) => ({
-        fileHash: this.container.hash,
-        index,
-        hash: this.container.hash + "-" + index,
-        chunk: file,
-        size: file.size,
-      }));
-      // console.log(this.data, "上传的视频数据");
-      //5.上传切片，同时过滤已上传的切片
-      await this.uploadChunks(uploadedList);
-    },
 
-    // 生成文件切片
-    createFileChunk(file, size = SIZE) {
-      const fileChunkList = [];
-      // 每个切片为10M
-      const chunkCount = Math.ceil(file.size / size);
-      this.chunkCount = chunkCount;
-      let cur = 0,
-        count = 0;
-      while (count < chunkCount) {
-        fileChunkList.push({ file: file.slice(cur, cur + size) });
-        cur += size;
-        count++;
-      }
-      return fileChunkList;
-    },
-
-    // 生成文件hash（web-worker）
-    calculateHash(fileChunkList) {
-      return new Promise((resolve) => {
-        this.container.worker = new Worker("/hash.js");
-        this.container.worker.postMessage({ fileChunkList });
-        this.container.worker.onmessage = (e) => {
-          const { percentage, hash } = e.data;
-          this.hashPercentage = Number(percentage.toFixed(0));
-          if (hash) {
-            resolve(hash);
-          }
-        };
-      });
-    },
-
-    // 上传切片，同时过滤已上传的切片
-    async uploadChunks(uploadedList = []) {
-      const requestList = this.data
-        .filter(({ hash }) => !uploadedList.includes(hash))
-        .map(({ chunk, fileHash, index }) => {
-          const formData = new FormData();
-          formData.append("chunk", chunk);
-          formData.append("hash", fileHash);
-          formData.append("index", index);
-          return formData;
-        })
-        .map(
-          async (formData) =>
-            await uploadFileSnippet(formData).then((res) => {
-              if (!res) {
-                this.uploading = false;
-                this.fileList = [];
-                this.$message.warning("上传失败，请重新上传");
-                return;
-              } else {
-                this.upChunkCount++;
-              }
-            })
-        );
-
-      await Promise.all(requestList);
-      // 之前上传的切片数量 + 本次上传的切片数量 = 所有切片数量时
-      // 5.合并切片
-      if (requestList.length === this.data.length) {
-        let fileInfo = {};
-        fileInfo.hash = this.container.hash;
-        fileInfo.total = this.data.length;
-        fileInfo.name = this.fileList[0].name;
-        fileInfo.type = "video";
-        await uploadMerge(fileInfo).then((res) => {
-          //把返回的url赋值给job_url
-          this.job_url = "/api/get_resource?file_id=" + res.url;
-          this.fileList = [];
-          this.upChunkCount = 0;
-          this.uploading = false;
-          this.visibles = true;
+      // 获取上传签名的函数
+      function fetchSignature() {
+        return getFileSignature().then((res) => {
+          return res.signature;
         });
       }
+      const { fileList } = this;
+      const formData = new FormData();
+      fileList.forEach((file) => {
+        formData.append("files[]", file);
+      });
+      const tcVod = new TcVod({
+        getSignature: fetchSignature, // 前文中所述的获取上传签名的函数
+      });
+      const uploader = tcVod.upload({
+        mediaFile: fileList[0], // 媒体文件（视频或音频或图片），类型为 File
+      });
+      console.log("777", uploader);
+      uploader.on("media_progress", (info) => {
+        this.progressData = (info.percent * 100).toFixed(0) * 1;
+        // console.log("进度", info.percent, this.progressData); // 进度
+      });
+      uploader
+        .done()
+        .then((doneResult) => {
+          console.log("上传完回调", doneResult, doneResult.video.url);
+          this.job_url = doneResult.video.url;
+          this.fileList = [];
+          this.uploading = false;
+          this.visibles = true;
+        })
+        .catch(function (err) {
+          console.log("文件上传错误", err);
+        });
     },
 
     handleRemove(file) {
@@ -259,7 +189,6 @@ export default {
       this.fileList = [...this.fileList, file];
       return false;
     },
-
     docHandleUpload() {
       const { fileList } = this;
       const formData = new FormData();
@@ -291,7 +220,6 @@ export default {
       submitWork(workInfo).then((res) => {
         // 提交作业后获取work_id
         console.log("作业提交成功", res);
-
         this.$router.push({
           name: "TaskResult",
           query: {

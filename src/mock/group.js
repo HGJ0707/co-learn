@@ -34,8 +34,8 @@ Mock.mock("/api/get_group_list_by_task_id", "post", {
                 task_id: "111",
                 work_id: "423",
                 job_url: "ddas/dasdd/adsaddsa",
-                group_leader: "201840922101",
-                group_leader_name: "谭子翔",
+                group_leader: "201840922107",
+                group_leader_name: "彭铭麒",
                 group_name: "第一",
                 cover_url: "https://qiheizhiya.oss-cn-shenzhen.aliyuncs.com/image/avatar6.jpg",
                 work_title: "@cparagraph(1, 10)",
@@ -182,11 +182,19 @@ Mock.mock("/api/get_group_members", "post", {
     msg: "",
     data: [{
         "task_id": 78,
-        "student_id": "201840922107",
+        "student_id": "201840922101",
         "leader_id": "201840922108",
         "create_time": "2022-04-15 08:46:09",
         "update_time": "2022-04-17 08:32:15",
         "state": 1,
-        "student_name": "彭铭麒"
-    }, ]
+        "student_name": "dasdas"
+    },{
+        "task_id": 738,
+        "student_id": "201840922101",
+        "leader_id": "201840922108",
+        "create_time": "2022-04-15 08:46:09",
+        "update_time": "2022-04-17 08:32:15",
+        "state": 1,
+        "student_name": "dasd"
+    }]
 })

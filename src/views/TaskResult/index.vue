@@ -224,7 +224,7 @@ export default {
     // 浏览量
     if (this.work_id) {
       workPageView(this.uploadInfo).then((res) => {
-        console.log("浏览量");
+        // console.log("浏览量");
       });
       // 一开始就获取作品链接
       this.job_url = await this.fetchWorkInfo();

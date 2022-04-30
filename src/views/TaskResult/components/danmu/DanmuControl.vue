@@ -1,6 +1,7 @@
 <template>
   <div class="barrage-container">
     <div
+      @click="handleClick"
       class="barrage-main"
       style="
         width: 100%;
@@ -85,6 +86,9 @@ export default {
     this.arr = newarr;
   },
   methods: {
+    handleClick() {
+      this.$emit("handleClick");
+    },
     // 获取弹幕列表
     async fetchDanmuList() {
       let work = {};

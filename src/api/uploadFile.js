@@ -23,3 +23,9 @@ export async function uploadCheckSnippet(hash) {
 export async function uploadMerge(mergeInfo) {
     return await request.post(`/api/upload_merge`, mergeInfo);
 }
+
+
+// 获取上传签名
+export async function getFileSignature() {
+    return await request.post(`/api/get_file_secret`);
+}

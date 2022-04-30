@@ -20,8 +20,8 @@ Mock.mock("/api/login_student", "post", {
     msg: "",
     data: {
         isTeacher: false,
-        user_name: '谭子翔',
-        user_id: '201840922101',
+        user_name: '彭铭麒',
+        user_id: '201840922107',
         token: '424238768423.432432424.324286783423',
         uid: '578768797897'
     }
