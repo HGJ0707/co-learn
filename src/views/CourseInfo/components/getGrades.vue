@@ -49,30 +49,18 @@
         <div :class="{ onlyItem: !isShow }" class="stu-order">序号</div>
         <div :class="{ onlyItem: !isShow }" class="stu-id">学号</div>
         <div :class="{ onlyItem: !isShow }" class="stu-name">姓名</div>
-        <div :class="{ onlyItem: !isShow }" class="stu-score">
-          <!-- :style="{
-            borderTopRightRadius: isShow ? '0' : '30px',
-            borderBottomRightRadius: isShow ? '0' : '30px',
-          }" -->
-          总分
-        </div>
+        <div :class="{ onlyItem: !isShow }" class="stu-score">总分</div>
         <div
           :class="{ onlyItem: !isShow }"
           class="children-container"
           v-show="isShow"
         >
-          <!-- :style="{
-            borderTopRightRadius: isShow ? '30px' : '0',
-            borderBottomRightRadius: isShow ? '30px' : '0',
-          }" -->
           <div class="stu-comment">评论</div>
           <div class="stu-giveLike">点赞</div>
           <div class="stu-beLike">获赞</div>
           <div class="stu-tecStar">评分（老师）</div>
           <div class="stu-stuStar">评分（同学）</div>
           <div class="stu-danmuCount">弹幕</div>
-          <!-- :style="{ borderTopRightRadius: isShow ? '30px' : '0',
-            borderBottomRightRadius: isShow ? '30px' : '0', }"  -->
         </div>
       </div>
       <div
@@ -180,17 +168,21 @@ export default {
       color: #000000d9;
       margin-bottom: 20px;
       text-align: center;
-      height: 70px;
-    }
-    .operation {
-      display: flex;
-      align-items: center;
-      position: absolute;
-      right: 0;
-      font-size: 0;
-      button,
-      div {
-        margin-left: 16px;
+      height: 100px;
+      position: relative;
+      .operation {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right: 0;
+        // left: 50%;
+        // transform: translateX(-50%);
+        font-size: 0;
+        margin-top: 30px;
+        button,
+        div {
+          margin-left: 16px;
+        }
       }
     }
 
@@ -235,10 +227,6 @@ export default {
         box-sizing: border-box;
         color: black;
       }
-      // & > div:first-child {
-      //   border-top-left-radius: 30px;
-      //   border-bottom-left-radius: 30px;
-      // }
       .children-container {
         width: 600px;
         display: flex;

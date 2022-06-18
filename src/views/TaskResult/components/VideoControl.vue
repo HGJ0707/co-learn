@@ -20,7 +20,7 @@
           @handleClick="clickPlay"
         />
         <!-- 视频控制条区域 -->
-        <div class="control" v-show="controlShow">
+        <div class="control">
           <div @click="handlePlay">
             <a-icon type="play-circle" v-if="!playState" />
             <a-icon type="pause-circle" v-else />
@@ -91,7 +91,6 @@ export default {
       audioProAppear: false,
       percent: 0, //当前播放和总时间之间的差值
       totalT: 0, //总时间
-      controlShow:false,
     };
   },
   methods: {

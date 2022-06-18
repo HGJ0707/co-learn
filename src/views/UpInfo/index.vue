@@ -1,9 +1,6 @@
 <template>
   <div
     class="upload-container"
-    :style="{
-      minHeight: minHeight + 'px',
-    }"
   >
     <div class="upload-content">
       <div class="import-container">

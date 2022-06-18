@@ -8,7 +8,7 @@
         height: 461.25px;
         position: relative;
         margin: 0px auto;
-        opacity: 0.3;
+        opacity: 1;
       "
     >
       <!-- 弹幕区域。确保父元素是相对定位，弹幕容器是绝对定位。arr:弹幕内容数组  percent:弹幕显示行数（10代表一样） -->

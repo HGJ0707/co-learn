@@ -59,13 +59,14 @@
           </div>
         </a>
       </div>
-      <a-spin class="loading" :spinning="isLoading" />
-      <a-empty
-        v-if="isEmpty"
-        description="没有更多了"
-        style="width: 100%; margin-bottom: 50px"
-      />
     </div>
+    <a-spin class="loading" :spinning="isLoading" />
+    <a-empty
+      class="emptyBox"
+      v-if="isEmpty"
+      description="没有更多了"
+      style="width: 100%; margin-bottom: 50px"
+    />
     <!-- 回到顶部 -->
     <div id="components-back-top-demo-custom">
       <a-back-top>
@@ -146,20 +147,21 @@ export default {
 .home-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   .home-content {
-    display: flex;
-    flex-wrap: wrap;
-    width: 1152px;
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 525px);
+    grid-row-gap: 50px;
+    grid-column-gap: 100px;
+    justify-content: center;
     box-sizing: border-box;
-    margin-top: 64px;
+    margin: 64px 0;
     .hot-item-box {
-      width: 525px;
       height: 150px;
       cursor: pointer;
       box-sizing: border-box;
-      margin-bottom: 50px;
       display: flex;
-      margin-right: 100px;
       .hot-item-imgBox {
         margin-right: 10px;
         img {
@@ -217,6 +219,9 @@ export default {
   }
   .loading {
     height: 100px;
+    width: 100%;
+  }
+  .emptyBox {
     width: 100%;
   }
 }
